@@ -16,13 +16,13 @@ const fetchRestaurantsByCity = (city: string | undefined) => {
     slug: true
   }
 
-  if (!city) return prisma.restaurant.findMany(select);
+  if (!city) return prisma.restaurant.findMany({select});
 
   return prisma.restaurant.findMany({
       where: {
           location: {
               name: {
-                  equals: city.toLowerCase(),
+                equals: city.toLowerCase(), 
               },
           },
       },
