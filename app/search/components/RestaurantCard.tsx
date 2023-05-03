@@ -14,7 +14,7 @@ interface Restaurant {
 
 export default function RestaurantCard({restaurant}:{restaurant: Restaurant}){
   return (
-    <div className="border-b flex pb-5">
+    <div className="border-b flex pb-5 ml-4">
       <img
         src={restaurant.main_image}
         alt=""
