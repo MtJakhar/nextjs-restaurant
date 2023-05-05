@@ -1,6 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import validator from "validator"
 import { PrismaClient } from "@prisma/client";
+import bcrypt from "bcrypt"
 
 const prisma = new PrismaClient()
 
@@ -9,7 +10,7 @@ export default async function handler(
   res: NextApiResponse
 ){
   if(req.method === "POST"){
-    const { firstName, email, phone, city, password } = req.body;
+    const { firstName, lastName, email, phone, city, password } = req.body;
 
     const errors: string[] = [];
 
@@ -20,6 +21,13 @@ export default async function handler(
           max: 20,
         }),
         errorMessage: "First name is Invalid"
+      },
+      {
+        valid: validator.isLength(lastName, {
+          min: 1,
+          max: 20,
+        }),
+        errorMessage: "Last name is Invalid"
       },
       {
         valid: validator.isEmail(email),
@@ -59,8 +67,21 @@ export default async function handler(
       return res.status(400).json({ errorMessage: "Email is associated with another account" });
     }
 
+    const hashedPassword = await bcrypt.hash(password, 10)
+
+    const user = await prisma.user.create({
+      data: {
+        first_name: firstName,
+        last_name: lastName,
+        password: hashedPassword,
+        city,
+        phone,
+        email
+      }
+    })
+
     res.status(200).json({
-      hello: "body",
+      hello: user,
     });
   }
 }
