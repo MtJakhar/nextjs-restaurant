@@ -64,7 +64,7 @@ export default function AuthModal({ isSignin }: { isSignin: boolean }) {
 
   const handleClick = () => {
     if (isSignin) {
-      signin({ email: inputs.email, password: inputs.password });
+      signin({ email: inputs.email, password: inputs.password }, handleClose);
     }
   };
 

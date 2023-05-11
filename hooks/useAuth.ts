@@ -13,7 +13,7 @@ const useAuth = () => {
   }: {
     email: string;
     password: string;
-  }) => {
+  }, handleClose: () => void) => {
     try {
       setAuthState({
         data: null,
@@ -32,13 +32,14 @@ const useAuth = () => {
         data: response.data,
         error: null,
         loading: false
-      })
+      });
+      handleClose();
     } catch (error: any) {
       setAuthState({
         data: null,
         error: error.response.data.errorMessage,
         loading: false
-      })
+      });
     }
   };
   const signup = async () => { };
