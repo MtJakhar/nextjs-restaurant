@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useContext } from "react"
+import isEmail from "validator/lib/isEmail";
 import { AuthenticationContext } from "../app/context/AuthContext";
 
 const useAuth = () => {
@@ -42,7 +43,53 @@ const useAuth = () => {
       });
     }
   };
-  const signup = async () => { };
+  const signup = async ( {
+    email,
+    password,
+    firstName,
+    lastName,
+    city,
+    phone
+  } : {
+    email: string;
+    password: string;
+    firstName: string;
+    lastName: string;
+    city: string;
+    phone: string
+  }, handleClose: () => void) => { 
+    try {
+      setAuthState({
+        data: null,
+        error: null,
+        loading: true
+      })
+
+      const response = await axios.post(
+        "http://localhost:3000/api/auth/signup",
+        {
+          email,
+          password,
+          firstName,
+          lastName,
+          city,
+          phone
+        }
+      );
+      setAuthState({
+        data: response.data,
+        error: null,
+        loading: false
+      });
+      handleClose();
+    } catch (error: any) {
+      setAuthState({
+        data: null,
+        error: error.response.data.errorMessage,
+        loading: false
+      });
+    }
+   };
   return {
     signin,
     signup,
