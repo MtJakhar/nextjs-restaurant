@@ -26,6 +26,8 @@ model Restaurant {
   location_id Int
   location Location @relation(fields: [location_id], references: [id])
   reviews Review[]
+  bookings Booking[]
+  tables Table[]
   cuisine_id Int
   cuisine Cuisine @relation(fields: [cuisine_id], references: [id])
 }
@@ -81,6 +83,45 @@ model Review {
   user_id Int
   user User @relation(fields: [user_id], references: [id])
 }
+
+model Booking {
+  id Int @id @default(autoincrement())
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  restaurant_id Int
+  restaurant Restaurant @relation(fields: [restaurant_id], references: [id])
+  number_of_people Int
+  booking_time DateTime
+  booker_email String
+  booker_phone String
+  booker_first_name String
+  booker_last_name String
+  booker_occasion String
+  booker_request String
+  tables BookingsOnTables[]
+}
+
+model Table {
+  id Int @id @default(autoincrement())
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  seats Int 
+  restaurant_id Int
+  restaurant Restaurant @relation(fields: [restaurant_id], references: [id])
+  bookings BookingsOnTables[]
+}
+
+model BookingsOnTables {
+  booking_id Int
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  booking Booking @relation(fields: [booking_id], references: [id])
+  table_id Int
+  table Table @relation(fields: [table_id], references: [id])
+
+  @@id([booking_id, table_id])
+}
+
 
 enum PRICE {
   CHEAP
