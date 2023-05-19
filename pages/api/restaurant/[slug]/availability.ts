@@ -87,7 +87,18 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     })
   })
 
-  return res.json({searchTimes, bookings, bookingTablesObj, tables, searchTimesWithTables})
+  const availabilities = searchTimesWithTables.map(t => {
+    const sumSeats = t.tables.reduce((sum, table) => {
+      return sum + table.seats
+    }, 0);
+
+    return {
+      time: t.time,
+      available: sumSeats >= parseInt(partySize)
+    }
+  })
+
+  return res.json({availabilities})
 }
 
 // http://localhost:3000/api/restaurant/vivaan-fine-indian-cuisine-ottawa/availability?day=2023-05-27&time=14:00:00.000Z&partySize=4
