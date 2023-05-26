@@ -18,12 +18,12 @@ export default function SearchBar() {
             <button
                 className="rounded bg-red-600 px-9 py-2 text-white"
                 onClick={() => {
-                  if (location === "") return;
-                  router.push(`/search?city=${location}`);
-                  setLocation("")
-                  
+                    if (location === "") return;
+                    router.push(`/search?city=${location}`);
+                    setLocation("");
                 }}
-            >Let's Go
+            >
+                Let's Go
             </button>
         </div>
     );

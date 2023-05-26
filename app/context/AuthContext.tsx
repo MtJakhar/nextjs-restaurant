@@ -19,15 +19,15 @@ interface State {
 }
 
 interface AuthState extends State {
-  setAuthState: React.Dispatch<React.SetStateAction<State>>
-} 
+  setAuthState: React.Dispatch<React.SetStateAction<State>>;
+}
 
 export const AuthenticationContext = createContext<AuthState>({
   loading: false,
   error: null,
   data: null,
-  setAuthState: () => {}
-})
+  setAuthState: () => { },
+});
 
 export default function AuthContext({
   children,
@@ -57,13 +57,16 @@ export default function AuthContext({
         });
       }
 
-      const response = await axios.get("http://localhost:3000/api/auth/me", {
-        headers: {
-          Authorization: `Bearer ${jwt}`
+      const response = await axios.get(
+        "http://localhost:3000/api/auth/me",
+        {
+          headers: {
+            Authorization: `Bearer ${jwt}`,
+          },
         }
-      })
+      );
 
-      axios.defaults.headers.common["Authorization"] = `Bearer ${jwt}`
+      axios.defaults.headers.common["Authorization"] = `Bearer ${jwt}`;
 
       setAuthState({
         data: response.data,
@@ -83,8 +86,14 @@ export default function AuthContext({
     fetchUser();
   }, []);
 
-  return <AuthenticationContext.Provider value={{
-    ...authState,
-    setAuthState
-  }}>{children}</AuthenticationContext.Provider>
+  return (
+    <AuthenticationContext.Provider
+      value={{
+        ...authState,
+        setAuthState,
+      }}
+    >
+      {children}
+    </AuthenticationContext.Provider>
+  );
 }

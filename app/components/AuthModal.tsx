@@ -52,7 +52,7 @@ export default function AuthModal({ isSignin }: { isSignin: boolean }) {
         inputs.lastName &&
         inputs.email &&
         inputs.password &&
-        inputs &&
+        inputs.city &&
         inputs.phone
       ) {
         return setDisabled(false);
