@@ -1,4 +1,4 @@
-# Openable Clone
+# OpenTable Clone
 
 This repository contains the code for an Openable clone, a website for restaurants built using Next.js framework. The purpose of this project is to provide a template for creating restaurant websites with features similar to Openable.
 
